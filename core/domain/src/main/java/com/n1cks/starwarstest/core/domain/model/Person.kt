@@ -1,7 +1,7 @@
 package com.n1cks.starwarstest.core.domain.model
 
 data class Person(
-    val id: Long = 0,
+    val id: String,
     val name: String,
     val height: String,
     val mass: String,
