@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.n1cks.starwarstest.features.peoplelist.ui.PeopleListScreen
+import com.n1cks.starwarstest.features.persondetails.ui.PersonDetailsScreen
 import com.n1cks.starwarstest.root.component.RootComponent
 
 @Composable
@@ -16,9 +18,9 @@ fun RootContent(component: RootComponent) {
     ) {
         when(val child = it.instance) {
             is RootComponent.Child.PeopleList ->
-                TODO()
+                PeopleListScreen(child.component)
             is RootComponent.Child.PersonDetails ->
-                TODO()
+                PersonDetailsScreen(child.component)
         }
     }
 }
