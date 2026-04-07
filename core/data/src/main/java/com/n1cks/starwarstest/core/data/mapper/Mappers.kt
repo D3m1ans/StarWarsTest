@@ -2,7 +2,6 @@ package com.n1cks.starwarstest.core.data.mapper
 
 import com.n1cks.starwarstest.core.data.local.entity.PersonEntity
 import com.n1cks.starwarstest.core.data.local.entity.PlanetEntity
-import com.n1cks.starwarstest.core.data.remote.api.extractIdFromUrl
 import com.n1cks.starwarstest.core.data.remote.dto.PersonDto
 import com.n1cks.starwarstest.core.data.remote.dto.PlanetDto
 import com.n1cks.starwarstest.core.domain.model.Person
@@ -48,3 +47,7 @@ fun PlanetEntity.toDomain(): Planet =
         id = id,
         name = name
     )
+
+fun extractIdFromUrl(url: String): String {
+    return url.trimEnd('/').substringAfterLast('/')
+}

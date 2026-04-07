@@ -13,7 +13,3 @@ interface SWApi {
     @GET("planets/{id}")
     suspend fun getPlanet(@Path("id") id: String): PlanetDto
 }
-
-fun extractIdFromUrl(url: String): String {
-    return url.trimEnd('/').substringAfterLast('/')
-}
