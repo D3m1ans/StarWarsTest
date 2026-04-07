@@ -55,4 +55,6 @@ dependencies {
     implementation(libs.decompose.extensions)
 
     implementation(project(":core:domain"))
+
+    implementation(project(":features:shared"))
 }
