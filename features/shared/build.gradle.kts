@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.n1cks.starwarstest.features.peoplelist"
+    namespace = "com.n1cks.starwarstest.features.shared"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -31,7 +31,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
     buildFeatures {
         compose = true
     }
@@ -54,7 +53,6 @@ dependencies {
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
 
-    implementation(project(":core:domain"))
-
-    implementation(project(":features:shared"))
+    implementation(libs.essenty.lifecycle)
+    implementation(libs.essenty.lifecycle.coroutines)
 }

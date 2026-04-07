@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/peopleList" />
             <option value="$PROJECT_DIR$/features/personDetails" />
+            <option value="$PROJECT_DIR$/features/shared" />
           </set>
         </option>
       </GradleProjectSettings>
