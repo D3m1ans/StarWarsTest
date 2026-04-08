@@ -17,6 +17,6 @@ fun ErrorScreen(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Error: ${message}")
+        Text("Error: $message")
     }
 }
