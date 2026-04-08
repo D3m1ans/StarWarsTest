@@ -2,6 +2,7 @@ package com.n1cks.starwarstest.core.data.repository
 
 import com.n1cks.starwarstest.core.data.local.dao.PeopleDao
 import com.n1cks.starwarstest.core.data.local.dao.PlanetDao
+import com.n1cks.starwarstest.core.data.local.entity.PersonEntity
 import com.n1cks.starwarstest.core.data.mapper.toDomain
 import com.n1cks.starwarstest.core.data.mapper.toEntity
 import com.n1cks.starwarstest.core.data.remote.api.SWApi
@@ -17,12 +18,28 @@ class PeopleRepositoryImpl(
 
     override suspend fun getPeople(): List<Person> {
         return try {
-            val response = api.getPeople()
-            val entities = response.results.map { it.toEntity() }
-            peopleDao.insertAll(entities)
+            val allEntities = mutableListOf<PersonEntity>()
+            var nextUrl: String? = null
 
-            entities.map { it.toDomain() }
+            do {
+                val response = if (nextUrl == null) {
+                    api.getPeople()
+                } else {
+                    api.getNextPage(nextUrl)
+                }
+
+                val entities = response.results.map { it.toEntity() }
+                allEntities.addAll(entities)
+
+                nextUrl = response.next
+
+            } while (nextUrl != null)
+
+            peopleDao.insertAll(allEntities)
+            allEntities.map { it.toDomain() }
+
         } catch (e: Exception) {
+            println("Ошибка загрузки: ${e.message}")
             peopleDao.getAll().map { it.toDomain() }
         }
     }

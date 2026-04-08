@@ -7,6 +7,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.n1cks.starwarstest.features.peoplelist.component.PeopleListComponent
@@ -19,46 +20,42 @@ import com.n1cks.starwarstest.features.peoplelist.ui.screen.LoadingScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PeopleListContent(component: PeopleListComponent) {
-
     val state by component.state.subscribeAsState()
+
+    var searchQuery by androidx.compose.runtime.remember {
+        androidx.compose.runtime.mutableStateOf("")
+    }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Star Wars Characters"
-                    )
-                },
+                title = { Text("Star Wars Characters") }
             )
         }
     ) { paddingValues ->
-
         when (val currentState = state) {
-
             is PeopleListState.Loading -> {
-                LoadingScreen(
-                    modifier = Modifier.padding(paddingValues)
-                )
+                LoadingScreen(modifier = Modifier.padding(paddingValues))
             }
-
             is PeopleListState.Empty -> {
-                EmptyScreen(
-                    modifier = Modifier.padding(paddingValues)
-                )
+                EmptyScreen(modifier = Modifier.padding(paddingValues))
             }
-
             is PeopleListState.Error -> {
                 ErrorScreen(
                     modifier = Modifier.padding(paddingValues),
                     message = currentState.message
                 )
             }
-
             is PeopleListState.Data -> {
                 DataScreen(
                     modifier = Modifier.padding(paddingValues),
-                    people = currentState.people,
+                    allPeople = currentState.allPeople,
+                    filteredPeople = currentState.filteredPeople,
+                    searchQuery = searchQuery,
+                    onSearchQueryChange = { query ->
+                        searchQuery = query
+                        component.onSearchQueryChanged(query)
+                    },
                     onPersonClick = component::onPersonClick
                 )
             }
