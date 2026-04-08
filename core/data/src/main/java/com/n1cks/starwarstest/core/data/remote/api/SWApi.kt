@@ -4,12 +4,13 @@ import com.n1cks.starwarstest.core.data.remote.dto.PeopleResponseDto
 import com.n1cks.starwarstest.core.data.remote.dto.PlanetDto
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface SWApi {
 
     @GET("people/")
     suspend fun getPeople(): PeopleResponseDto
 
-    @GET("planets/{id}")
+    @GET("planets/{id}/")
     suspend fun getPlanet(@Path("id") id: String): PlanetDto
 }

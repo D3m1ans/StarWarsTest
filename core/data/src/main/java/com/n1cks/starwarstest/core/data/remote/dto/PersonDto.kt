@@ -14,5 +14,5 @@ data class PersonDto(
     @SerialName("birth_year") val birthYear: String,
     val gender: String,
     @SerialName("homeworld") val homeWorld: String,
-    val urL: String
+    val url: String
 )

@@ -9,17 +9,17 @@ import com.n1cks.starwarstest.core.domain.model.Planet
 
 fun PersonDto.toEntity(): PersonEntity =
     PersonEntity(
-        id = extractIdFromUrl(urL),
+        id = extractIdFromUrl(url),
         name = name,
         height = height,
         mass = mass,
         hairColor = hairColor,
-        gender = gender,
         skinColor = skinColor,
         eyeColor = eyeColor,
         birthYear = birthYear,
+        gender = gender,
         homeWorldId = extractIdFromUrl(homeWorld),
-        url = urL
+        url = url
     )
 
 fun PlanetDto.toEntity(): PlanetEntity =

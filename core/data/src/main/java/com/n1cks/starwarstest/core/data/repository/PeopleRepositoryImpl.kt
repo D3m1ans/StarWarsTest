@@ -13,14 +13,14 @@ class PeopleRepositoryImpl(
     private val api: SWApi,
     private val peopleDao: PeopleDao,
     private val planetDao: PlanetDao,
-): PeopleRepository {
+) : PeopleRepository {
 
     override suspend fun getPeople(): List<Person> {
         return try {
             val response = api.getPeople()
             val entities = response.results.map { it.toEntity() }
-
             peopleDao.insertAll(entities)
+
             entities.map { it.toDomain() }
         } catch (e: Exception) {
             peopleDao.getAll().map { it.toDomain() }
@@ -28,24 +28,17 @@ class PeopleRepositoryImpl(
     }
 
     override suspend fun getPersonDetails(id: String): PersonDetails {
+        val personEntity = peopleDao.getAll().firstOrNull { it.id == id }
+            ?: throw IllegalStateException("Person not found: $id")
 
-        val person = peopleDao.getAll().first {it.id == id}.toDomain()
-        val cachedPlanet = planetDao.getById(person.homeWorldId)
-        val planet = cachedPlanet?.toDomain()
-            ?: try {
-                val dto = api.getPlanet(person.homeWorldId)
-                val entity = dto.toEntity()
+        val person = personEntity.toDomain()
 
-                planetDao.insert(entity)
-                entity.toDomain()
-            } catch (e: Exception) {
-                throw e
-            }
+        val planet = planetDao.getById(person.homeWorldId)?.toDomain()
+            ?: api.getPlanet(person.homeWorldId).toEntity().also {
+                planetDao.insert(it)
+            }.toDomain()
 
-        return PersonDetails(
-            person = person,
-            planet = planet
-        )
+        return PersonDetails(person = person, planet = planet)
     }
 
 }

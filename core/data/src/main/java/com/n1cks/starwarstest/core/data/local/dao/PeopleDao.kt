@@ -8,7 +8,6 @@ import com.n1cks.starwarstest.core.data.local.entity.PersonEntity
 
 @Dao
 interface PeopleDao {
-
     @Query("SELECT * FROM people")
     suspend fun getAll(): List<PersonEntity>
 
