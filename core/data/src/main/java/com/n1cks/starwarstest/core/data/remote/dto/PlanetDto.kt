@@ -1,10 +1,12 @@
 package com.n1cks.starwarstest.core.data.remote.dto
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlanetDto(
     val name: String,
-    @SerialName("url") val url: String
+    val climate: String,
+    val terrain: String,
+    val population: String,
+    val url: String
 )

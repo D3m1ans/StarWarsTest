@@ -6,5 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "planets")
 data class PlanetEntity(
     @PrimaryKey val id: String,
-    val name: String
+    val name: String,
+    val climate: String,
+    val terrain: String,
+    val population: String
 )

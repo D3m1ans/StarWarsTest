@@ -10,5 +10,5 @@ data class Person(
     val eyeColor: String,
     val birthYear: String,
     val gender: String,
-    val homeWorldId: String
+    val homeWorldId: String,
 )

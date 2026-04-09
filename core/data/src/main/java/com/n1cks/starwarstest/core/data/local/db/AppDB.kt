@@ -9,7 +9,7 @@ import com.n1cks.starwarstest.core.data.local.entity.PlanetEntity
 
 @Database(
     entities = [PersonEntity::class, PlanetEntity::class],
-    version = 1
+    version = 2
 )
 abstract class AppDB: RoomDatabase() {
     abstract fun peopleDao(): PeopleDao

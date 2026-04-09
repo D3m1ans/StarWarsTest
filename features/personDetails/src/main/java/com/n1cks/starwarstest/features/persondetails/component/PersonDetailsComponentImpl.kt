@@ -5,7 +5,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.n1cks.starwarstest.core.domain.usecase.GetPersonDetailsUseCase
 import com.n1cks.starwarstest.features.persondetails.state.PersonDetailsState
-import com.n1cks.starwarstest.features.shared.componentScope
+import com.n1cks.starwarstest.features.shared.scope.componentScope
 import kotlinx.coroutines.launch
 
 class PersonDetailsComponentImpl(

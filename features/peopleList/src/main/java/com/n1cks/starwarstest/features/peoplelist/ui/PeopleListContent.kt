@@ -15,7 +15,7 @@ import com.n1cks.starwarstest.features.peoplelist.state.PeopleListState
 import com.n1cks.starwarstest.features.peoplelist.ui.screen.DataScreen
 import com.n1cks.starwarstest.features.peoplelist.ui.screen.EmptyScreen
 import com.n1cks.starwarstest.features.peoplelist.ui.screen.ErrorScreen
-import com.n1cks.starwarstest.features.peoplelist.ui.screen.LoadingScreen
+import com.n1cks.starwarstest.features.shared.screen.LoadingScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

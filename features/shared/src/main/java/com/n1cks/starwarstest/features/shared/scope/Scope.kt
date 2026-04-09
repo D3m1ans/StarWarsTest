@@ -1,4 +1,4 @@
-package com.n1cks.starwarstest.features.shared
+package com.n1cks.starwarstest.features.shared.scope
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope

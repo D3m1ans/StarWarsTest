@@ -25,7 +25,10 @@ fun PersonDto.toEntity(): PersonEntity =
 fun PlanetDto.toEntity(): PlanetEntity =
     PlanetEntity(
         id = extractIdFromUrl(url),
-        name = name
+        name = name,
+        climate = climate,
+        terrain = terrain,
+        population = population
     )
 
 fun PersonEntity.toDomain(): Person =
@@ -45,7 +48,10 @@ fun PersonEntity.toDomain(): Person =
 fun PlanetEntity.toDomain(): Planet =
     Planet(
         id = id,
-        name = name
+        name = name,
+        climate = climate,
+        terrain = terrain,
+        population = population
     )
 
 fun extractIdFromUrl(url: String): String {

@@ -6,7 +6,7 @@ import com.arkivanov.decompose.value.Value
 import com.n1cks.starwarstest.core.domain.model.Person
 import com.n1cks.starwarstest.core.domain.usecase.GetPeopleUseCase
 import com.n1cks.starwarstest.features.peoplelist.state.PeopleListState
-import com.n1cks.starwarstest.features.shared.componentScope
+import com.n1cks.starwarstest.features.shared.scope.componentScope
 import kotlinx.coroutines.launch
 
 class PeopleListComponentImpl(
@@ -21,7 +21,7 @@ class PeopleListComponentImpl(
     private var allPeopleCache: List<Person> = emptyList()
 
     override fun onPersonClick(id: String) {
-        onPersonClick(id)
+        onPersonClick.invoke(id)
     }
 
     override fun onSearchQueryChanged(query: String) {
