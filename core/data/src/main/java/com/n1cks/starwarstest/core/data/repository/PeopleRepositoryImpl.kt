@@ -71,5 +71,4 @@ class PeopleRepositoryImpl(
                 planetDao.insert(it)
             }.toDomain()
     }
-
 }
