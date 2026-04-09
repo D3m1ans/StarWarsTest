@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.n1cks.starwarstest.features.persondetails.state.PersonDetailsState
 import com.n1cks.starwarstest.features.persondetails.ui.item.InfoItem
+import com.n1cks.starwarstest.features.persondetails.ui.item.infoSection
 
 @Composable
 fun DataScreen(
@@ -19,49 +20,53 @@ fun DataScreen(
     val person = state.person
     val planet = state.planet
     val species = state.species
+    val films = state.films
+
+    val personInfo = listOf(
+        "Height" to person.height,
+        "Mass" to person.mass,
+        "Hair Color" to person.hairColor,
+        "Skin Color" to person.skinColor,
+        "Eye Color" to person.eyeColor,
+        "Birth Year" to person.birthYear,
+        "Gender" to person.gender
+    )
+
+    val planetInfo = listOf(
+        "Name" to planet.name,
+        "Climate" to planet.climate,
+        "Terrain" to planet.terrain,
+        "Population" to planet.population
+    )
 
     LazyColumn(
         modifier = modifier.padding(16.dp)
     ) {
-        item {
-            Text("Basic Information", style = MaterialTheme.typography.titleMedium)
-        }
 
-        item { InfoItem("Height", person.height) }
-        item { InfoItem("Mass", person.mass) }
-        item { InfoItem("Hair Color", person.hairColor) }
-        item { InfoItem("Skin Color", person.skinColor) }
-        item { InfoItem("Eye Color", person.eyeColor) }
-        item { InfoItem("Birth Year", person.birthYear) }
-        item { InfoItem("Gender", person.gender) }
+        infoSection("Basic Information", personInfo)
 
-        item {
-            Text("Homeworld", style = MaterialTheme.typography.titleMedium)
-        }
-
-        item { InfoItem("Name", planet.name) }
-        item { InfoItem("Climate", planet.climate) }
-        item { InfoItem("Terrain", planet.terrain) }
-        item { InfoItem("Population", planet.population) }
+        infoSection("Homeworld", planetInfo)
 
         item {
             Text("Species", style = MaterialTheme.typography.titleMedium)
         }
 
-        if (person.speciesIds.isNotEmpty()) {
-            items(species) { specie ->
-                InfoItem(
-                    title = specie.name,
-                    value = ""
-                )
+        if (species.isNotEmpty()) {
+            items(species) {
+                InfoItem(it.name, "")
             }
         } else {
             item {
-                InfoItem(
-                    title = "",
-                    value = "No species information available"
-                )
+                InfoItem("", "No species information available")
             }
+        }
+
+        item {
+            Text("Films", style = MaterialTheme.typography.titleMedium)
+        }
+
+        items(films) {
+            InfoItem(it.title, it.openingCrawl)
         }
     }
 }

@@ -11,6 +11,9 @@ interface PeopleDao {
     @Query("SELECT * FROM people")
     suspend fun getAll(): List<PersonEntity>
 
+    @Query("SELECT * FROM people WHERE id = :id")
+    suspend fun getById(id: String): PersonEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<PersonEntity>)
 }

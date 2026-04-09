@@ -10,7 +10,8 @@ val repositoryModule = module {
             api = get(),
             peopleDao = get(),
             planetDao = get(),
-            speciesDao = get()
+            speciesDao = get(),
+            filmDao = get()
         )
     }
 }

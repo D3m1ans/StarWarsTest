@@ -11,11 +11,12 @@ val dataBaseModule = module {
             androidContext(),
             AppDB::class.java,
             "app_db"
-        ).fallbackToDestructiveMigration()
+        )
             .build()
     }
 
     single { get<AppDB>().peopleDao() }
     single { get<AppDB>().planetDao() }
     single { get<AppDB>().speciesDao() }
+    single { get<AppDB>().filmDao() }
 }

@@ -17,6 +17,7 @@ fun PersonDto.toEntity(): PersonEntity =
         gender = gender,
         homeWorldId = extractIdFromUrl(homeWorld),
         speciesIds = species.joinToString(",") { extractIdFromUrl(it) },
+        filmsIds = films.joinToString(",") { extractIdFromUrl(it) },
         url = url
     )
 
@@ -32,6 +33,9 @@ fun PersonEntity.toDomain(): Person =
         birthYear = birthYear,
         gender = gender,
         homeWorldId = homeWorldId,
-        speciesIds = if (speciesIds.isBlank()) emptyList()
-        else speciesIds.split(",").map { it.trim() }
+        speciesIds = speciesIds.parseIds(),
+        filmsIds = filmsIds.parseIds()
     )
+
+fun String.parseIds(): List<String> =
+    if (isBlank()) emptyList() else split(",").map { it.trim() }

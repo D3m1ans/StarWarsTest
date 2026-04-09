@@ -1,5 +1,6 @@
 package com.n1cks.starwarstest.core.data.repository
 
+import com.n1cks.starwarstest.core.data.local.dao.FilmDao
 import com.n1cks.starwarstest.core.data.local.dao.PeopleDao
 import com.n1cks.starwarstest.core.data.local.dao.PlanetDao
 import com.n1cks.starwarstest.core.data.local.dao.SpeciesDao
@@ -7,9 +8,11 @@ import com.n1cks.starwarstest.core.data.local.entity.PersonEntity
 import com.n1cks.starwarstest.core.data.mapper.toDomain
 import com.n1cks.starwarstest.core.data.mapper.toEntity
 import com.n1cks.starwarstest.core.data.remote.api.SWApi
+import com.n1cks.starwarstest.core.domain.model.Film
 import com.n1cks.starwarstest.core.domain.model.Person
 import com.n1cks.starwarstest.core.domain.model.PersonDetails
 import com.n1cks.starwarstest.core.domain.model.Planet
+import com.n1cks.starwarstest.core.domain.model.Species
 import com.n1cks.starwarstest.core.domain.repository.PeopleRepository
 
 class PeopleRepositoryImpl(
@@ -17,6 +20,7 @@ class PeopleRepositoryImpl(
     private val peopleDao: PeopleDao,
     private val planetDao: PlanetDao,
     private val speciesDao: SpeciesDao,
+    private val filmDao: FilmDao
 ) : PeopleRepository {
 
     override suspend fun getPeople(): List<Person> {
@@ -48,27 +52,52 @@ class PeopleRepositoryImpl(
     }
 
     override suspend fun getPersonDetails(id: String): PersonDetails {
-        val personEntity = peopleDao.getAll().firstOrNull { it.id == id }
+        val personEntity = peopleDao.getById(id)
             ?: throw IllegalStateException("Person not found: $id")
 
         val person = personEntity.toDomain()
-        val planet = getPlanetOrCache(person.homeWorldId)
+        val planet = loadPlanet(person.homeWorldId)
 
-        val species = person.speciesIds.mapNotNull { speciesId ->
-            speciesDao.getById(speciesId)?.toDomain()
-                ?: api.getSpecies(speciesId).toEntity().also {
-                    speciesDao.insert(it)
+        val species = loadSpecies(person.speciesIds)
+        val films = loadFilms(person.filmsIds)
+
+        return PersonDetails(person, planet, species, films)
+
+    }
+
+    private suspend fun loadPlanet(id: String): Planet {
+        return try {
+            planetDao.getById(id)?.toDomain()
+                ?: api.getPlanet(id).toEntity().also {
+                    planetDao.insert(it)
                 }.toDomain()
+        } catch (e: Exception) {
+            planetDao.getById(id)?.toDomain()
+                ?: throw e
+        }
+    }
+
+    private suspend fun loadSpecies(speciesIds: List<String>): List<Species> =
+        speciesIds.mapNotNull { id ->
+            try {
+                speciesDao.getById(id)?.toDomain()
+                    ?: api.getSpecies(id).toEntity().also {
+                        speciesDao.insert(it)
+                    }.toDomain()
+            } catch (e: Exception) {
+                speciesDao.getById(id)?.toDomain()
+            }
         }
 
-        return PersonDetails(person, planet, species)
-
-    }
-
-    private suspend fun getPlanetOrCache(id: String): Planet {
-        return planetDao.getById(id)?.toDomain()
-            ?: api.getPlanet(id).toEntity().also {
-                planetDao.insert(it)
-            }.toDomain()
-    }
+    private suspend fun loadFilms(filmIds: List<String>): List<Film> =
+        filmIds.mapNotNull { id ->
+            try {
+                filmDao.getById(id)?.toDomain()
+                    ?: api.getFilm(id).toEntity().also {
+                        filmDao.insert(it)
+                    }.toDomain()
+            } catch (e: Exception) {
+                filmDao.getById(id)?.toDomain()
+            }
+        }
 }

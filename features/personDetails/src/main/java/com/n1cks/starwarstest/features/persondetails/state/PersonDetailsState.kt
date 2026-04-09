@@ -1,5 +1,6 @@
 package com.n1cks.starwarstest.features.persondetails.state
 
+import com.n1cks.starwarstest.core.domain.model.Film
 import com.n1cks.starwarstest.core.domain.model.Person
 import com.n1cks.starwarstest.core.domain.model.Planet
 import com.n1cks.starwarstest.core.domain.model.Species
@@ -11,7 +12,8 @@ sealed interface PersonDetailsState {
     data class Data(
         val person: Person,
         val planet: Planet,
-        val species: List<Species>
+        val species: List<Species>,
+        val films: List<Film>
     ) : PersonDetailsState
 
     data class Error(

@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -24,6 +25,13 @@ fun PeopleListContent(component: PeopleListComponent) {
 
     var searchQuery by androidx.compose.runtime.remember {
         androidx.compose.runtime.mutableStateOf("")
+    }
+
+    DisposableEffect(Unit) {
+        searchQuery = ""
+        component.onSearchQueryChanged("")
+
+        onDispose { }
     }
 
     Scaffold(

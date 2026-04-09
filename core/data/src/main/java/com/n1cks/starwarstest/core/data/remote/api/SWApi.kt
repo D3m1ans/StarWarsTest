@@ -1,5 +1,6 @@
 package com.n1cks.starwarstest.core.data.remote.api
 
+import com.n1cks.starwarstest.core.data.remote.dto.FilmDto
 import com.n1cks.starwarstest.core.data.remote.dto.PeopleResponseDto
 import com.n1cks.starwarstest.core.data.remote.dto.PlanetDto
 import com.n1cks.starwarstest.core.data.remote.dto.SpeciesDto
@@ -20,4 +21,7 @@ interface SWApi {
 
     @GET("species/{id}/")
     suspend fun getSpecies(@Path("id") id: String): SpeciesDto
+
+    @GET("films/{id}/")
+    suspend fun getFilm(@Path("id") id: String): FilmDto
 }
