@@ -11,4 +11,5 @@ data class Person(
     val birthYear: String,
     val gender: String,
     val homeWorldId: String,
+    val speciesIds: List<String> = emptyList()
 )

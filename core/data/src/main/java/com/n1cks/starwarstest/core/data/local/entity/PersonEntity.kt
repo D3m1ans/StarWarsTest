@@ -15,5 +15,6 @@ data class PersonEntity(
     val birthYear: String,
     val gender: String,
     val homeWorldId: String,
+    val speciesIds: String,
     val url: String
 )

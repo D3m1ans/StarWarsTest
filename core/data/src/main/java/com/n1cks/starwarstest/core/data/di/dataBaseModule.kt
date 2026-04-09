@@ -17,4 +17,5 @@ val dataBaseModule = module {
 
     single { get<AppDB>().peopleDao() }
     single { get<AppDB>().planetDao() }
+    single { get<AppDB>().speciesDao() }
 }

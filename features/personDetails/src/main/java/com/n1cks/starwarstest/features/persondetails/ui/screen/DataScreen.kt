@@ -1,8 +1,8 @@
 package com.n1cks.starwarstest.features.persondetails.ui.screen
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +18,7 @@ fun DataScreen(
 ) {
     val person = state.person
     val planet = state.planet
+    val species = state.species
 
     LazyColumn(
         modifier = modifier.padding(16.dp)
@@ -42,5 +43,25 @@ fun DataScreen(
         item { InfoItem("Climate", planet.climate) }
         item { InfoItem("Terrain", planet.terrain) }
         item { InfoItem("Population", planet.population) }
+
+        item {
+            Text("Species", style = MaterialTheme.typography.titleMedium)
+        }
+
+        if (person.speciesIds.isNotEmpty()) {
+            items(species) { specie ->
+                InfoItem(
+                    title = specie.name,
+                    value = ""
+                )
+            }
+        } else {
+            item {
+                InfoItem(
+                    title = "",
+                    value = "No species information available"
+                )
+            }
+        }
     }
 }

@@ -2,18 +2,21 @@ package com.n1cks.starwarstest.core.data.repository
 
 import com.n1cks.starwarstest.core.data.local.dao.PeopleDao
 import com.n1cks.starwarstest.core.data.local.dao.PlanetDao
+import com.n1cks.starwarstest.core.data.local.dao.SpeciesDao
 import com.n1cks.starwarstest.core.data.local.entity.PersonEntity
 import com.n1cks.starwarstest.core.data.mapper.toDomain
 import com.n1cks.starwarstest.core.data.mapper.toEntity
 import com.n1cks.starwarstest.core.data.remote.api.SWApi
 import com.n1cks.starwarstest.core.domain.model.Person
 import com.n1cks.starwarstest.core.domain.model.PersonDetails
+import com.n1cks.starwarstest.core.domain.model.Planet
 import com.n1cks.starwarstest.core.domain.repository.PeopleRepository
 
 class PeopleRepositoryImpl(
     private val api: SWApi,
     private val peopleDao: PeopleDao,
     private val planetDao: PlanetDao,
+    private val speciesDao: SpeciesDao,
 ) : PeopleRepository {
 
     override suspend fun getPeople(): List<Person> {
@@ -49,13 +52,24 @@ class PeopleRepositoryImpl(
             ?: throw IllegalStateException("Person not found: $id")
 
         val person = personEntity.toDomain()
+        val planet = getPlanetOrCache(person.homeWorldId)
 
-        val planet = planetDao.getById(person.homeWorldId)?.toDomain()
-            ?: api.getPlanet(person.homeWorldId).toEntity().also {
+        val species = person.speciesIds.mapNotNull { speciesId ->
+            speciesDao.getById(speciesId)?.toDomain()
+                ?: api.getSpecies(speciesId).toEntity().also {
+                    speciesDao.insert(it)
+                }.toDomain()
+        }
+
+        return PersonDetails(person, planet, species)
+
+    }
+
+    private suspend fun getPlanetOrCache(id: String): Planet {
+        return planetDao.getById(id)?.toDomain()
+            ?: api.getPlanet(id).toEntity().also {
                 planetDao.insert(it)
             }.toDomain()
-
-        return PersonDetails(person = person, planet = planet)
     }
 
 }

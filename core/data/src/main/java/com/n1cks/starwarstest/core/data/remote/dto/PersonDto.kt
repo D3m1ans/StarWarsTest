@@ -14,5 +14,6 @@ data class PersonDto(
     @SerialName("birth_year") val birthYear: String,
     val gender: String,
     @SerialName("homeworld") val homeWorld: String,
+    @SerialName("species") val species: List<String>,
     val url: String
 )

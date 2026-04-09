@@ -35,7 +35,8 @@ class PersonDetailsComponentImpl(
 
                 _state.value = PersonDetailsState.Data(
                     person = details.person,
-                    planet = details.planet
+                    planet = details.planet,
+                    species = details.species
                 )
             } catch (e: Exception) {
                 _state.value = PersonDetailsState.Error(

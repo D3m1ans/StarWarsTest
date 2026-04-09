@@ -9,7 +9,8 @@ val repositoryModule = module {
         PeopleRepositoryImpl(
             api = get(),
             peopleDao = get(),
-            planetDao = get()
+            planetDao = get(),
+            speciesDao = get()
         )
     }
 }
