@@ -1,5 +1,6 @@
 package com.n1cks.starwarstest.core.data.repository
 
+import android.util.Log
 import com.n1cks.starwarstest.core.data.local.dao.FilmDao
 import com.n1cks.starwarstest.core.data.local.dao.PeopleDao
 import com.n1cks.starwarstest.core.data.local.dao.PlanetDao
@@ -85,6 +86,7 @@ class PeopleRepositoryImpl(
                         speciesDao.insert(it)
                     }.toDomain()
             } catch (e: Exception) {
+                Log.d("error", e.message.toString())
                 speciesDao.getById(id)?.toDomain()
             }
         }
@@ -97,6 +99,7 @@ class PeopleRepositoryImpl(
                         filmDao.insert(it)
                     }.toDomain()
             } catch (e: Exception) {
+                Log.d("error", e.message.toString())
                 filmDao.getById(id)?.toDomain()
             }
         }

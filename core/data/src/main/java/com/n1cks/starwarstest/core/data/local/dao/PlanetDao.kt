@@ -8,7 +8,6 @@ import com.n1cks.starwarstest.core.data.local.entity.PlanetEntity
 
 @Dao
 interface PlanetDao {
-
     @Query("SELECT * FROM planets WHERE id = :id")
     suspend fun getById(id: String): PlanetEntity?
 
